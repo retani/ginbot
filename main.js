@@ -12,7 +12,8 @@ if (cluster.isWorker) {
 /// BEGIN
 
 const Telegraf = require('telegraf')
-const session = require('telegraf/session')
+const LocalSession = require('telegraf-session-local')
+ 
 const exec = require('child_process').exec;
 
 const bot = new Telegraf(process.env.BOT_TOKEN)
@@ -22,7 +23,7 @@ bot.catch((err) => {
 })
 
 // // Register session middleware
-bot.use(session())
+bot.use((new LocalSession({ database: 'example_db.json' })).middleware())
 
 bot.start((ctx) =>  {
   ctx.reply('Welcome! /add <ip> to start')
